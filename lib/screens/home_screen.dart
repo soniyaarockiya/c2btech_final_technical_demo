@@ -1,12 +1,4 @@
-import 'package:c2btechfinaltechnicaldemo/data_related/data_provider.dart';
-import 'package:c2btechfinaltechnicaldemo/data_related/weather_pojo.dart';
-import 'package:c2btechfinaltechnicaldemo/services/current_location_data_call.dart';
-import 'package:c2btechfinaltechnicaldemo/services/weather_data.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:provider/provider.dart';
-
 import 'current_location_weather_screen.dart';
 import 'list_screen.dart';
 import 'map_screen.dart';
@@ -23,22 +15,12 @@ class _HomePageState extends State<HomePage> {
   // Ui constants
   int _selectedIndex = 0;
 
-  WeatherData _weatherData = new WeatherData();
-  CurrentLocation _currentLocation = new CurrentLocation();
-
   //List of children widget to be displayed in the home page--body
   final List<Widget> _children = [
     CurrentLocationWeather(),
     MapPage(),
     ListPage(),
   ];
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getCurrentLocation();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,19 +64,5 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _selectedIndex = index;
     });
-  }
-
-  void getWeatherData(LatLng latLng) async {
-    //get weather data
-    Weather weather = await _weatherData.getLocationWeather(latLng);
-    Provider.of<DataProvider>(context, listen: false).changeString(weather);
-  }
-
-  void getCurrentLocation() async {
-    //Get current location lat and long
-    Position _position = await _currentLocation.getLocation();
-
-    LatLng latLng = LatLng(_position.latitude, _position.longitude);
-    getWeatherData(latLng);
   }
 }
