@@ -1,11 +1,8 @@
 import 'package:c2btechfinaltechnicaldemo/data_related/city_pojo.dart';
-import 'package:c2btechfinaltechnicaldemo/data_related/data_provider.dart';
-import 'package:c2btechfinaltechnicaldemo/screens/home_screen.dart';
-import 'package:c2btechfinaltechnicaldemo/services/weather_data.dart';
+import 'package:c2btechfinaltechnicaldemo/services/handle_tap_event.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:provider/provider.dart';
 
 class ListPage extends StatefulWidget {
   @override
@@ -13,8 +10,7 @@ class ListPage extends StatefulWidget {
 }
 
 class _ListPageState extends State<ListPage> {
-  WeatherData _weatherData = new WeatherData();
-
+  HandleTapEvent _handleTapEvent = new HandleTapEvent();
   ScrollController _scrollController = ScrollController();
   int pageNumber = 1;
   String dummy = 'Dummy';
@@ -28,9 +24,7 @@ class _ListPageState extends State<ListPage> {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         setState(() {
-          //url uses page number as a value
-//          pageNumber += 1;
-//          getBeerData();
+          //write code to get more data from api
         });
       }
     });
@@ -50,8 +44,9 @@ class _ListPageState extends State<ListPage> {
           }
           return GestureDetector(
             onTap: () {
-              handleTapEvent(
-                  LatLng(cityDetails[index].lat, cityDetails[index].lang));
+              _handleTapEvent.handleTapEvent(
+                  LatLng(cityDetails[index].lat, cityDetails[index].lang),
+                  context);
             },
             child: Padding(
               padding: EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 18.0),
@@ -77,12 +72,5 @@ class _ListPageState extends State<ListPage> {
             ),
           );
         });
-  }
-
-  void handleTapEvent(LatLng latLng) async {
-    dynamic weather = await _weatherData.getLocationWeather(latLng);
-    Provider.of<DataProvider>(context, listen: false).changeString(weather);
-    final BottomNavigationBar navigationBar = globalKey.currentWidget;
-    navigationBar.onTap(0);
   }
 }

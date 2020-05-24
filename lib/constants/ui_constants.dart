@@ -6,4 +6,4 @@ const kTextFieldStyle = TextStyle(
 
 //Text style for temperature
 const kTempFieldStyle = TextStyle(
-    fontSize: 80.0, color: Colors.blueGrey, fontWeight: FontWeight.w900);
+    fontSize: 80.0, color: Colors.amberAccent, fontWeight: FontWeight.w900);
